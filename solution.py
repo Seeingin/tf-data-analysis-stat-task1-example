@@ -7,7 +7,7 @@ chat_id = 752592494
 def solution(x: np.array) -> float:
     from scipy.optimize import minimize
     from scipy.stats import lognorm
-    
+
     def log_likelihood(params, x):
         alpha, sigma = params
         mu = 607 + np.exp(alpha)
@@ -15,6 +15,7 @@ def solution(x: np.array) -> float:
         return -np.sum(log_pdf)
 
     initial_guess = [0.5, 1.0]
-    result = minimize(log_likelihood, initial_guess, args=(x,))
+    bounds = [(None, None), (1e-12, None)]  # Ensuring sigma is positive
+    result = minimize(log_likelihood, initial_guess, args=(x,), method='L-BFGS-B', bounds=bounds)
     alpha = result.x[0]
     return alpha
