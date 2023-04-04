@@ -5,7 +5,7 @@ import numpy as np
 chat_id = 752592494
 
 def solution(x: np.array) -> float:
-    mu = np.log(np.mean(x) - 607)
-    sigma = np.sqrt(np.log(1 + np.var(x) / np.power(np.mean(x) - 607, 2)))
-    alpha = np.exp(mu - sigma**2 / 2)
+    from scipy.stats import norm
+    p = (x - 607).mean() / np.sqrt(np.var(x) / len(x))
+    alpha = 1 - p
     return alpha
